@@ -1,0 +1,21 @@
+<script type=text/javascript>
+  window.onload = function() {
+    init();
+    getAncestry();
+  };
+</script>
+{% extends "base.html" %}
+{% block body %}
+  <div id="threshold-display"></div>
+  <span>speculative</span>
+  <input id="threshold-slider" class="mdl-slider mdl-js-slider" type="range" min="51" max="99" value="51" tabindex="0">
+  <span>conservative</span>
+  <button id="submit-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+  <div id="ancestry-data"></div>
+  <!-- {% for p in response_json %}
+      <h3>id: {{p.id}}</h3>
+      <h3>label: {{p.ancestry.label}}</h3>
+      <h3>proportion: {{p.ancestry.proportion}}</h3>
+      <h3>unassigned: {{p.ancestry.unassigned}}</h3>
+  {% endfor %} -->
+{% endblock %}

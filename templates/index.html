@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+Ancestry Estimate
+{% endblock %}
+
+{% block body %}
+<div>Login via your 23andme account:</div>
+<div id="login-btn"></div>
+<script src="https://api.23andme.com/res/js/ttam-0.3.js"></script>
+<script>
+    window.onload = function () {
+        var ttam = TTAM('dd68469627e72cb14486346923b0c345');
+        ttam.connectButton('login-btn', ["ancestry"]);
+    };
+</script>
+{% endblock %}
