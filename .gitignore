@@ -6,3 +6,4 @@ share/
 pip-selfcheck.json
 *.Python
 *.cfg
+/node_modules

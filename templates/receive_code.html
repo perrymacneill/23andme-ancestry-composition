@@ -1,13 +1,13 @@
-<script type=text/javascript>
+<!-- <script type=text/javascript>
   window.onload = function() {
     init();
   };
-</script>
+</script> -->
 {% extends "base.html" %}
 {% block body %}
   <div id="threshold-display"></div>
-  <span style="float: left;">Speculative</span>
-  <span style="float: right;">Conservative</span>
+  <span style="float: left;">◀ Speculative</span>
+  <span style="float: right;">Conservative ▶</span>
   <input id="threshold-slider" class="mdl-slider mdl-js-slider" type="range" min="51" max="99" value="51" tabindex="0">
   <button id="submit-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
   <div id="canvas-holder" style="width:75%">
