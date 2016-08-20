@@ -1,6 +1,5 @@
-import {colors} from './colors';
+import colors from './colors';
 import Chart from 'chart.js';
-window.c = colors;
 
 const $SCRIPT_ROOT = 'http://localhost:5000';
 
@@ -90,28 +89,14 @@ function loopSubpopulations(arr) {
     }
   }
 
+  let colorCounter = 0;
   for (let i = 2; i >= 0; i--) {
-    for (let j = 0; j < dataset[i].data.length; j++) {
-      dataset[i].backgroundColor[j] = colors[j];
+    for (let j = 0, k = 1; j < dataset[i].data.length; j++, k++) {
+      dataset[i].backgroundColor[j] = colors[colorCounter];
+      colorCounter++;
     }
     config.data.datasets.push(dataset[i]);
-    //config.data.datasets.backgroundColor.push(randomColor(0.7));
   }
-
-  //   $.each(config.data.datasets, function(index, dataset) {
-  //     for(var l = 0; l < dataset[index].data.length; l++) {
-  //       dataset.backgroundColor[l] = randomColor(0.7);
-  //     }
-  //     dataset.data.push(dataset[index]);
-  //     //dataset.backgroundColor.push(randomColor(0.7));
-  // });
-  //
-  // config.data.labels = [
-  //                 "Red",
-  //                 "Green",
-  //                 "Yellow",
-  //                 "Grey",
-  //                 "sadsadasd"];
   window.ancestryChart.update();
 }
 
@@ -124,13 +109,4 @@ function displaySubpopulations(population) {
 function resetChart() {
   config.data.datasets = [];
   config.data.labels = [];
-}
-
-function getRandomColor() {
-  let letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }
