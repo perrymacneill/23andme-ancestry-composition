@@ -24,5 +24,5 @@ function init() {
     <Provider store={store}>
       <App />
     </Provider>,
-    document.getElementById('chart-test'));
+    document.getElementById('root'));
 }
