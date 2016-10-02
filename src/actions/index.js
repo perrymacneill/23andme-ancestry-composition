@@ -25,7 +25,6 @@ export function setAncestryDataAsync(number) {
           'threshold': number
         },
         success: function(data) {
-          console.log(data);
           let subpopulations = data.ancestry.sub_populations;
           $("#ancestry-data").html('');
           dispatch(setAncestryData(loopSubpopulations(subpopulations)));
