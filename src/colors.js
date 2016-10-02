@@ -1,7 +1,7 @@
-const totalAncestries = 41;
+const TOTAL_ANCESTRIES = 41;
 
 let colors = [];
-for(let i = 0; i < totalAncestries; i++) {
+for(let i = 0; i < TOTAL_ANCESTRIES; i++) {
   colors[i] = randomColor(0.7);
 }
 

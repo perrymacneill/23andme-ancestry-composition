@@ -1,6 +1,5 @@
 body {
   font-family: helvetica;
-  background-color: #efefef;
   color: #757575;
   display: flex;
 }
@@ -13,7 +12,8 @@ body {
 
 #app {
   width:900px;
-  margin:auto;
+  margin-right:auto;
+  margin-left: auto;
   height: 100%;
 }
 

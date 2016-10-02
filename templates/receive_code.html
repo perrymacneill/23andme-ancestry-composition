@@ -1,17 +1,25 @@
-<!-- <script type=text/javascript>
-  window.onload = function() {
-    init();
-  };
-</script> -->
-{% extends "base.html" %}
-{% block body %}
-  <div id="threshold-display"></div>
-  <span style="float: left;">◀ Speculative</span>
-  <span style="float: right;">Conservative ▶</span>
-  <input id="threshold-slider" class="mdl-slider mdl-js-slider" type="range" min="51" max="99" value="51" tabindex="0">
-  <button id="submit-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
-  <div id="canvas-holder" style="width:75%">
-    <canvas id="chart-area" />
-  </div>
-  <div id="ancestry-data"></div>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ancestry Estimate</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.light_green-pink.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div id="app">
+      <div id="chart-test"></div>
+      <div id="threshold-display"></div>
+      <!-- <span style="float: left;">◀ Speculative</span>
+      <span style="float: right;">Conservative ▶</span> -->
+      <!-- <input id="threshold-slider" class="mdl-slider mdl-js-slider" type="range" min="51" max="99" value="51" tabindex="0"> -->
+      <!-- <button id="submit-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button> -->
+      <div id="canvas-holder" style="width:75%">
+        <canvas id="chart-area" />
+      </div>
+      <div id="ancestry-data"></div>
+    </div>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bundle.js')}}"></script>
+  </body>
+</html>
