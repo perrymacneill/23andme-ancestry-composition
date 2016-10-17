@@ -1,1 +1,1 @@
-App written in react/redux allowing a genotyped 23andme user to fine-tune their ancestry estimate
+react/redux app using data visualization with chart.js for a user's ancestry estimate
