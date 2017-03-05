@@ -17,6 +17,9 @@ const AncestryChart = ({ ancestryData }) => (
     title: {
       display: true,
       text: 'Ancestry Breakdown'
+    },
+    tooltips : {
+	enabled: false
     }
   }} />
 )
