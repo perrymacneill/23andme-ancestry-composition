@@ -26,7 +26,7 @@ export function setAncestryDataAsync(number) {
         },
         success: function(data) {
           let subpopulations = data.ancestry.sub_populations;
-          $("#ancestry-data").html('');
+	  $("#ancestry-data").html('');
           dispatch(setAncestryData(loopSubpopulations(subpopulations)));
         }
       });
@@ -44,13 +44,13 @@ function loopSubpopulations(arr) {
 
   for (let i in arr) {
     dataset[0].data.push(arr[i].proportion);
-    displaySubpopulations(arr[i]);
+      displaySubpopulations(arr[i], 'region-1');
     for (let j in arr[i].sub_populations) {
       dataset[1].data.push(arr[i].sub_populations[j].proportion);
-      displaySubpopulations(arr[i].sub_populations[j]);
+	displaySubpopulations(arr[i].sub_populations[j], 'region-2');
       for (let k in arr[i].sub_populations[j].sub_populations) {
         dataset[2].data.push(arr[i].sub_populations[j].sub_populations[k].proportion);
-        displaySubpopulations(arr[i].sub_populations[j].sub_populations[k]);
+          displaySubpopulations(arr[i].sub_populations[j].sub_populations[k], 'region-3');
       }
     }
   }
@@ -67,8 +67,8 @@ function loopSubpopulations(arr) {
   return newDataset;
 }
 
-function displaySubpopulations(population) {
+function displaySubpopulations(population, regionLevel) {
   if (population !== undefined && population.proportion > 0) { //check if user has this ancestry category
-    $("#ancestry-data").append('<div>' + population.label + ': ' + (Math.floor(population.proportion * 1000) / 10) + '%</div>');
+      $("#ancestry-data").append(`<div class=${regionLevel}>` + population.label + ': ' + (Math.floor(population.proportion * 1000) / 10) + '%</div>');
   }
 }
