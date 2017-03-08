@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import colors from '../colors';
-const $SCRIPT_ROOT = 'http://localhost:5000';
+const $SCRIPT_ROOT = 'http://bioinformatics.party';
 
 export const setAncestryData = (ancestryData) => {
   return {
