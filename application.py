@@ -6,7 +6,7 @@ from flask import request
 application = flask.Flask(__name__)
 
 API_SERVER = "api.23andme.com"
-BASE_CLIENT_URL = 'http://bioinformatics.party/'
+BASE_CLIENT_URL = 'bioinformatics.party/'
 DEFAULT_REDIRECT_URI = '%sreceive_code/'  % BASE_CLIENT_URL
 DEFAULT_SCOPE = "ancestry"
 CLIENT_SECRET = application.config['CLIENT_SECRET']
