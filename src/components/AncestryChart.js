@@ -16,10 +16,10 @@ const AncestryChart = ({ ancestryData }) => (
     },
     title: {
       display: true,
-      text: 'Ancestry Breakdown'
+      text: 'Ancestry Composition'
     },
     tooltips : {
-	enabled: false
+      enabled: false
     }
   }} />
 )

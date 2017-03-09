@@ -6,11 +6,11 @@ from flask import request
 application = flask.Flask(__name__)
 
 API_SERVER = "api.23andme.com"
-BASE_CLIENT_URL = 'bioinformatics.party/'
+BASE_CLIENT_URL = 'http://bioinformatics.party/'
 DEFAULT_REDIRECT_URI = '%sreceive_code/'  % BASE_CLIENT_URL
 DEFAULT_SCOPE = "ancestry"
-CLIENT_SECRET = app.config['CLIENT_SECRET']
-CLIENT_ID = app.config['CLIENT_ID']
+CLIENT_SECRET = application.config['CLIENT_SECRET']
+CLIENT_ID = application.config['CLIENT_ID']
 THRESHOLD_CONVERSION = .01 # converts slider value from client to threshold value used by 23andme api
 BASE_API_URL = 'https://api.23andme.com/'
 REDIRECT_URI = 'http://bioinformatics.party/receive_code'

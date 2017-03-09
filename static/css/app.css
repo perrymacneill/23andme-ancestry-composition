@@ -36,16 +36,16 @@ body {
   margin: auto;
 }
 
-.region-1 {
+.layer-0 {
   font-size: 20px;
 }
 
-.region-2 {
+.layer-1 {
   text-indent: 20px;
   font-size: 18px;
 }
 
-.region-3 {
+.layer-2 {
   text-indent: 40px;
   font-size: 16px;
 }

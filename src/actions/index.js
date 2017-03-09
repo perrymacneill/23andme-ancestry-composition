@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import colors from '../colors';
 const $SCRIPT_ROOT = 'http://bioinformatics.party';
+let colorCounter = 0;
+const INNER_LAYER = 0, MIDDLE_LAYER = 1, OUTER_LAYER = 2;
 
 export const setAncestryData = (ancestryData) => {
   return {
@@ -18,57 +20,94 @@ export const setThresholdValue = (thresholdValue) => {
 
 export function setAncestryDataAsync(number) {
   return dispatch => {
-      $.ajax({
-        type: 'POST',
-        url: $SCRIPT_ROOT + '/get_ancestry',
-        data: {
-          'threshold': number
-        },
-        success: function(data) {
-          let subpopulations = data.ancestry.sub_populations;
-	  $("#ancestry-data").html('');
-          dispatch(setAncestryData(loopSubpopulations(subpopulations)));
-        }
-      });
+    $.ajax({
+      type: 'POST',
+      url: $SCRIPT_ROOT + '/get_ancestry',
+      data: {
+        'threshold': number
+      },
+      success: function(data) {
+      let subpopulations = data.ancestry;
+      $("#ancestry-data").html('');
+      dispatch(setAncestryData(loopSubpopulations(subpopulations)));
+      }
+    });
   };
 }
 
-function loopSubpopulations(arr) {
+function loopSubpopulations(ancestry) {
   let dataset = [];
-  for (let i = 0; i < 3; i++) { //three levels of ancestry data
+  for (let i = INNER_LAYER; i <= OUTER_LAYER; i++) {
     dataset[i] = {
       backgroundColor: [],
       data: []
     };
   }
 
-  for (let i in arr) {
-    dataset[0].data.push(arr[i].proportion);
-      displaySubpopulations(arr[i], 'region-1');
-    for (let j in arr[i].sub_populations) {
-      dataset[1].data.push(arr[i].sub_populations[j].proportion);
-	displaySubpopulations(arr[i].sub_populations[j], 'region-2');
-      for (let k in arr[i].sub_populations[j].sub_populations) {
-        dataset[2].data.push(arr[i].sub_populations[j].sub_populations[k].proportion);
-          displaySubpopulations(arr[i].sub_populations[j].sub_populations[k], 'region-3');
+  for (let i in ancestry.sub_populations) {
+    let currentPopulation = ancestry.sub_populations[i];
+    checkSubpopulations(currentPopulation, INNER_LAYER, dataset);
+    for (let j in ancestry.sub_populations[i].sub_populations) {
+      let currentPopulation = ancestry.sub_populations[i].sub_populations[j];
+      checkSubpopulations(currentPopulation, MIDDLE_LAYER, dataset);
+      for (let k in ancestry.sub_populations[i].sub_populations[j].sub_populations) {
+        let currentPopulation = ancestry.sub_populations[i].sub_populations[j].sub_populations[k];
+        checkSubpopulations(currentPopulation, OUTER_LAYER, dataset);
       }
     }
   }
 
-  let colorCounter = 0;
+  //check total unassigned
+  if(ancestry.unassigned > 0) {
+    checkUnassigned(ancestry.unassigned, dataset);
+  }
+
+  //return dataset to dispatch
   let newDataset = [];
-  for (let i = 2; i >= 0; i--) {
-    for (let j = 0, k = 1; j < dataset[i].data.length; j++, k++) {
-      dataset[i].backgroundColor[j] = colors[colorCounter];
-      colorCounter++;
-    }
+  for (let i = dataset.length - 1; i >= 0; i--){
     newDataset.push(dataset[i]);
   }
+  colorCounter = 0;
   return newDataset;
 }
 
-function displaySubpopulations(population, regionLevel) {
-  if (population !== undefined && population.proportion > 0) { //check if user has this ancestry category
-      $("#ancestry-data").append(`<div class=${regionLevel}>` + population.label + ': ' + (Math.floor(population.proportion * 1000) / 10) + '%</div>');
+function checkUnassigned(unassigned, dataset) {
+  let color = 'rgba(0,0,0,0.7)';
+  for(let i = 0; i < dataset.length; i++) {
+    dataset[i].data.push(unassigned);
+    dataset[i].backgroundColor.push(color);
   }
+  displaySubpopulations('Unassigned', unassigned, 'layer-0', color);
+}
+
+function checkSubpopulations(currentPopulation, layer, dataset) {
+  if(currentPopulation.proportion > 0) {
+    let currentColor = colors[colorCounter];
+    dataset[layer].data.push(currentPopulation.proportion);
+    dataset[layer].backgroundColor.push(currentColor);
+    //special case need to add proportion to third layer because no sub_populations exist
+    if(currentPopulation.sub_populations === undefined && layer <= 1) {
+      dataset[OUTER_LAYER].data.push(currentPopulation.proportion);
+      dataset[OUTER_LAYER].backgroundColor.push(currentColor);
+    }
+    displaySubpopulations(currentPopulation.label, currentPopulation.proportion, `layer-${layer}`, currentColor);
+    colorCounter++;
+  }
+
+  if(currentPopulation.unassigned > 0) {
+    let currentColor = colors[colorCounter];
+    dataset[layer+1].data.push(currentPopulation.unassigned);
+    //special case need to add unassigned to third layer because no sub_populations exist
+    if(layer === 0) {
+      dataset[OUTER_LAYER].data.push(currentPopulation.unassigned);
+      dataset[OUTER_LAYER].backgroundColor.push(currentColor);
+    }
+    dataset[layer+1].backgroundColor.push(currentColor);
+    displaySubpopulations("Broadly " + currentPopulation.label, currentPopulation.unassigned, `layer-${layer+1}`, currentColor);
+    colorCounter++;
+  }
+}
+
+function displaySubpopulations(label, proportion, layerLevel, color) {
+  $("#ancestry-data").append(`<div class=${layerLevel}><span style=color:${color};>⬤</span>` + label + ': ' + (Math.round(proportion * 100 * 1000)/1000) + '%</div>');
 }
